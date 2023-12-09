@@ -1,0 +1,42 @@
+pip install music21
+import numpy as np
+import music21
+
+def extract_tempo(note_sheet):
+    durations = [n.quarterLength for n in note_sheet.flat.notes]
+    return np.array(durations)
+
+def find_fibonacci_sequence(sequence):
+    a, b = 0, 1
+    for value in sequence:
+        if value == b:
+            a, b = b, a + b
+        elif value > b:
+            return False
+    return True
+
+def analyze_fibonacci_tempo(note_sheet):
+    durations = extract_tempo(note_sheet)
+
+    # Check if Fibonacci sequence is present in tempo variations
+    is_fibonacci_tempo = find_fibonacci_sequence(durations)
+
+    return is_fibonacci_tempo
+
+def main():
+    # Ask the user for sheet music input
+    sheet_music_input = input("Enter the sheet music (e.g., 'C4 D4 E4 F4 G4 A4 B4 C5'): ")
+
+    # Convert the input into a music21 stream
+    note_sheet = music21.converter.parse("tinynotation: " + sheet_music_input)
+
+    # Analyze whether Fibonacci sequence is present in tempo variations
+    is_fibonacci_tempo = analyze_fibonacci_tempo(note_sheet)
+
+    if is_fibonacci_tempo:
+        print("The Fibonacci sequence is present in tempo variations.")
+    else:
+        print("The Fibonacci sequence is not present in tempo variations.")
+
+if __name__ == "__main__":
+    main()
